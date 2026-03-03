@@ -18,6 +18,9 @@ app.use(express.json({ limit: '10mb' }));  // large limit for bulk ingest payloa
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api', learningPathRouter);
 app.use('/api/admin', adminRouter);
+app.use('/check', (req, res) => {
+  res.json({ message: "I am hosted" });
+});
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date() }));
