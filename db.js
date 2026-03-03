@@ -1,7 +1,11 @@
 import 'dotenv/config';
-import { Pool } from 'pg';
+import pg from 'pg';
+const { Pool } = pg;
 
-console.log('🔌 DATABASE_URL presence:', process.env.DATABASE_URL ? 'YES' : 'NO');
+console.log('🔌 [DB_INIT] DATABASE_URL presence:', process.env.DATABASE_URL ? 'YES' : 'NO');
+if (!process.env.DATABASE_URL) {
+    console.error('❌ [DB_INIT] FATAL: DATABASE_URL is not defined in process.env');
+}
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
