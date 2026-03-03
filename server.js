@@ -52,9 +52,5 @@ async function start() {
     // Don't crash — let the server start so you can still see the error
   }
 
-  app.listen(PORT, () => {
-    console.log(`✅ codrapp Content API running on http://localhost:${PORT}`);
-  });
-}
 
-start();
+}
