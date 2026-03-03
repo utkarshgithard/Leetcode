@@ -1,0 +1,184 @@
+{
+    "topics": [
+        {
+            "slug": "arrays",
+            "title": "Arrays & Hashing",
+            "description": "Master the fundamentals: traversal, two-pointer, and hash-map patterns for O(n) solutions.",
+            "icon": "📦",
+            "sort_order": 1,
+            "lessons": [
+                {
+                    "slug": "two-sum-pattern",
+                    "title": "The Two-Sum Pattern",
+                    "summary": "Learn how a hash map reduces a brute-force O(n²) search to a single O(n) pass.",
+                    "difficulty": "beginner",
+                    "estimated_mins": 12,
+                    "prerequisites": [],
+                    "sort_order": 1,
+                    "is_published": true,
+                    "content_blocks": [
+                        {
+                            "type": "markdown",
+                            "sort_order": 1,
+                            "content": {
+                                "text": "## The Core Idea\n\nImagine you're at a party looking for someone whose age adds up to exactly 30 with yours. The brute-force way is to ask every person to check every other person — **O(n²)**.\n\nThe smart way: as you walk through the room, write your own age on a sticky note on your back. Now anyone who needs you can spot you instantly — **O(n)**.\n\nThat sticky-note board is your **hash map**."
+                            },
+                            "metadata": {}
+                        },
+                        {
+                            "type": "code",
+                            "sort_order": 2,
+                            "content": {
+                                "language": "python",
+                                "caption": "O(n) Two-Sum using a hash map",
+                                "code": "def two_sum(nums: list[int], target: int) -> list[int]:\n    seen = {}  # value -> index\n    for i, num in enumerate(nums):\n        complement = target - num\n        if complement in seen:\n            return [seen[complement], i]\n        seen[num] = i\n    return []  # no solution found"
+                            },
+                            "metadata": {
+                                "tags": [
+                                    "hash-map",
+                                    "one-pass"
+                                ]
+                            }
+                        },
+                        {
+                            "type": "markdown",
+                            "sort_order": 3,
+                            "content": {
+                                "text": "## Step-by-Step Trace\n\nFor `nums = [2, 7, 11, 15]`, `target = 9`:\n\n| i | num | complement | seen (before insert) | result |\n|---|-----|------------|----------------------|--------|\n| 0 | 2   | 7          | `{}`                 | not found, add 2 |\n| 1 | 7   | 2          | `{2: 0}`             | **found!** → `[0, 1]` |\n\nWe never look at indices 2 or 3."
+                            },
+                            "metadata": {}
+                        },
+                        {
+                            "type": "quiz",
+                            "sort_order": 4,
+                            "content": {
+                                "question": "What is the time complexity of the hash-map Two-Sum approach?",
+                                "options": [
+                                    "O(n²)",
+                                    "O(n log n)",
+                                    "O(n)",
+                                    "O(1)"
+                                ],
+                                "answer_index": 2,
+                                "explanation": "We iterate through the array once. Each hash-map lookup and insertion is O(1) on average, giving us O(n) overall."
+                            },
+                            "metadata": {}
+                        }
+                    ]
+                },
+                {
+                    "slug": "sliding-window-intro",
+                    "title": "Sliding Window Fundamentals",
+                    "summary": "Replace nested loops with a single expanding/shrinking window for subarray and substring problems.",
+                    "difficulty": "beginner",
+                    "estimated_mins": 18,
+                    "prerequisites": [
+                        "two-sum-pattern"
+                    ],
+                    "sort_order": 2,
+                    "is_published": false,
+                    "content_blocks": [
+                        {
+                            "type": "markdown",
+                            "sort_order": 1,
+                            "content": {
+                                "text": "## What Is a Sliding Window?\n\nThink of a train window. As the train moves, the view shifts — new scenery enters on one side, old scenery leaves the other. You never step off and walk back.\n\nIn code, **two pointers** (`left` and `right`) mark the window edges. We expand `right` to grow the window and advance `left` to shrink it."
+                            },
+                            "metadata": {}
+                        },
+                        {
+                            "type": "code",
+                            "sort_order": 2,
+                            "content": {
+                                "language": "python",
+                                "caption": "Maximum sum subarray of size k — O(n)",
+                                "code": "def max_subarray_sum(nums: list[int], k: int) -> int:\n    window_sum = sum(nums[:k])\n    max_sum = window_sum\n    for i in range(k, len(nums)):\n        window_sum += nums[i] - nums[i - k]  # slide: add right, drop left\n        max_sum = max(max_sum, window_sum)\n    return max_sum"
+                            },
+                            "metadata": {
+                                "tags": [
+                                    "sliding-window",
+                                    "fixed-size"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "slug": "dynamic-programming",
+            "title": "Dynamic Programming",
+            "description": "Break hard problems into overlapping subproblems. Learn memoization and tabulation techniques.",
+            "icon": "🧩",
+            "sort_order": 2,
+            "lessons": [
+                {
+                    "slug": "dp-intro-fibonacci",
+                    "title": "DP Explained via Fibonacci",
+                    "summary": "Understand memoization and tabulation by optimizing the classic Fibonacci sequence.",
+                    "difficulty": "beginner",
+                    "estimated_mins": 15,
+                    "prerequisites": [],
+                    "sort_order": 1,
+                    "is_published": true,
+                    "content_blocks": [
+                        {
+                            "type": "markdown",
+                            "sort_order": 1,
+                            "content": {
+                                "text": "## The Problem with Naive Recursion\n\nThe naive recursive Fibonacci calls `fib(3)`, `fib(2)`, `fib(1)` many times. For `fib(50)` this explodes to over a trillion calls.\n\n**Dynamic Programming** says: *compute each subproblem once, store the answer.*"
+                            },
+                            "metadata": {}
+                        },
+                        {
+                            "type": "code",
+                            "sort_order": 2,
+                            "content": {
+                                "language": "python",
+                                "caption": "Top-down memoization",
+                                "code": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n: int) -> int:\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)"
+                            },
+                            "metadata": {
+                                "tags": [
+                                    "memoization",
+                                    "recursion"
+                                ]
+                            }
+                        },
+                        {
+                            "type": "code",
+                            "sort_order": 3,
+                            "content": {
+                                "language": "python",
+                                "caption": "Bottom-up tabulation — O(n) time, O(1) space",
+                                "code": "def fib(n: int) -> int:\n    if n <= 1:\n        return n\n    prev, curr = 0, 1\n    for _ in range(2, n + 1):\n        prev, curr = curr, prev + curr\n    return curr"
+                            },
+                            "metadata": {
+                                "tags": [
+                                    "tabulation",
+                                    "space-optimized"
+                                ]
+                            }
+                        },
+                        {
+                            "type": "quiz",
+                            "sort_order": 4,
+                            "content": {
+                                "question": "What is the space complexity of the bottom-up tabulated Fibonacci above?",
+                                "options": [
+                                    "O(n)",
+                                    "O(n²)",
+                                    "O(log n)",
+                                    "O(1)"
+                                ],
+                                "answer_index": 3,
+                                "explanation": "We only track two variables (prev and curr), not a full array. So space is constant — O(1)."
+                            },
+                            "metadata": {}
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
