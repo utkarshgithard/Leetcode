@@ -1,10 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
 
-const learningPathRouter = require('./routes/learningPath');
-const adminRouter = require('./routes/admin');
+import learningPathRouter from './routes/learningPath.js';
+import adminRouter from './routes/admin.js';
+import pool from './db.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -31,8 +32,6 @@ app.use((err, _req, res, _next) => {
 });
 
 // ─── Start ────────────────────────────────────────────────────────────────────
-const pool = require('./db');
-
 async function start() {
   // Test DB connection before accepting traffic
   try {

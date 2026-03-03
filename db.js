@@ -1,15 +1,14 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Recommended defaults for production use:
-    max: 10,                // max connections in pool
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 pool.on('error', (err) => {
     console.error('Unexpected PostgreSQL pool error:', err);
 });
 
-module.exports = pool;
+export default pool;

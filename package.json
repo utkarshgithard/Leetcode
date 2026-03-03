@@ -2,6 +2,7 @@
     "name": "codrapp-content-api",
     "version": "1.0.0",
     "description": "Content API for codrapp — serves AI-generated lesson content from PostgreSQL",
+    "type": "module",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",

@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const pool = require('../db');
-const { ingestData } = require('../scripts/ingestLogic');
+import pool from '../db.js';
+import { ingestData } from '../scripts/ingestLogic.js';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Middleware: simple API-key auth for all admin routes
@@ -114,4 +114,4 @@ router.get('/lessons', async (_req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;

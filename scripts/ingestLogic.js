@@ -36,7 +36,7 @@
  * }
  */
 
-async function ingestData(data, pool) {
+export async function ingestData(data, pool) {
     const client = await pool.connect();
     const stats = { topics: 0, lessons: 0, blocks: 0 };
 
@@ -130,4 +130,4 @@ async function ingestData(data, pool) {
     }
 }
 
-module.exports = { ingestData };
+

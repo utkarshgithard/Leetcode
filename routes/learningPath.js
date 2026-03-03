@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const pool = require('../db');
+import pool from '../db.js';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/learning-paths
@@ -140,4 +140,4 @@ router.get('/search', async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;

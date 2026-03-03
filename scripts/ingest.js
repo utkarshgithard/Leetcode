@@ -1,25 +1,9 @@
 #!/usr/bin/env node
-/**
- * scripts/ingest.js — CLI Content Ingestion Script
- *
- * Usage:
- *   node scripts/ingest.js <path-to-json-file>
- *
- * Examples:
- *   node scripts/ingest.js seed.example.json
- *   node scripts/ingest.js ./my-content/arrays-topic.json
- *
- * The script reads a JSON file and bulk-upserts topics, lessons, and
- * content_blocks into PostgreSQL. Re-running is safe — it upserts by slug.
- *
- * Requires a .env file in the backend/ directory with DATABASE_URL set.
- */
-
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const { Pool } = require('pg');
-const { ingestData } = require('./ingestLogic');
+import 'dotenv/config';
+import fs from 'fs';
+import path from 'path';
+import { Pool } from 'pg';
+import { ingestData } from './ingestLogic.js';
 
 // ─── Parse args ───────────────────────────────────────────────────────────────
 const [, , filePath] = process.argv;
@@ -52,7 +36,10 @@ if (!data || !Array.isArray(data.topics)) {
 }
 
 // ─── Connect & Ingest ─────────────────────────────────────────────────────────
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 (async () => {
     console.log(`📂  Reading: ${absolutePath}`);
