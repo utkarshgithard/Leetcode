@@ -22,6 +22,8 @@ app.use('/check', (req, res) => {
   res.json({ message: "I am hosted" });
 });
 
+app.get('/', (_req, res) => res.json({ message: "I am hosted" }))
+
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date() }));
 
